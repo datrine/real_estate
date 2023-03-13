@@ -1,91 +1,53 @@
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from './page.module.css'
+import { baseUrl, fetchApi } from "../utils/fetchApi";
+import {
+  BannerComp,
+  PropertiesForRentFlexComp,
+  PropertiesForSaleFlexComp,
+} from "@/components/home_page";
 
-const inter = Inter({ subsets: ['latin'] })
-
-export default function Home() {
+export default async function ({}) {
+  let propertiesForSale = await getPropertyForSale();
+  let propertiesForRent = await getPropertyForRent();
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <div>
+      <BannerComp
+        purpose={"Rent A Home"}
+        title1={"Rental Hones for"}
+        title2="Everyone"
+        desc1="Explore Apartments, Villas, Homes"
+        desc2={"and more"}
+        buttonText="Explore Renting"
+        linkName="/search?purpose=for-rent"
+        imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/145426814/33973352624c48628e41f2ec460faba4"
+      />
+      <PropertiesForRentFlexComp propertiesForRent={propertiesForRent} />
+      <BannerComp
+        purpose="BUY A HOME"
+        title1=" Find, Buy & Own Your"
+        title2="Dream Home"
+        desc1=" Explore from Apartments, land, builder floors,"
+        desc2=" villas and more"
+        buttonText="Explore Buying"
+        linkName="/search?purpose=for-sale"
+        imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/110993385/6a070e8e1bae4f7d8c1429bc303d2008"
+      />
+      <PropertiesForSaleFlexComp propertiesForSale={propertiesForSale} />
+    </div>
+  );
+}
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
+export async function getPropertyForSale() {
+  const propertyForSale = await fetchApi(
+    `${baseUrl}/properties/list?locationExternalIDs=5002&purpose=for-sale&hitsPerPage=6`
+  );
 
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+  return propertyForSale?.hits;
+}
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
+export async function getPropertyForRent() {
+  const propertyForRent = await fetchApi(
+    `${baseUrl}/properties/list?locationExternalIDs=5002&purpose=for-rent&hitsPerPage=6`
+  );
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+  return propertyForRent?.hits;
 }
