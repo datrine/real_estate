@@ -1,13 +1,26 @@
-import { baseUrl, fetchApi } from "../utils/fetchApi";
+import { baseUrl, fetchApi } from "../src/utils/fetchApi";
 import {
   BannerComp,
   PropertiesForRentFlexComp,
   PropertiesForSaleFlexComp,
-} from "@/components/home_page";
+} from "../components/home_page";
+import { useEffect, useState } from "react";
 
-export default async function ({}) {
-  let propertiesForSale = await getPropertyForSale();
-  let propertiesForRent = await getPropertyForRent();
+const Index= ({})=> {
+  let [propertiesForSale, changePropertiesForSale] = useState();
+  let [propertiesForRent, changePropertiesForRent] = useState();
+  useEffect(() => {
+    (async () => {
+      let propertiesForSale = await getPropertyForSale();
+      changePropertiesForSale(propertiesForSale);
+    })();
+  }, []);
+  useEffect(() => {
+    (async () => {
+      let propertiesForRent = await getPropertyForRent();
+      changePropertiesForRent(propertiesForRent);
+    })();
+  }, []);
   return (
     <div>
       <BannerComp
@@ -36,7 +49,7 @@ export default async function ({}) {
   );
 }
 
-export async function getPropertyForSale() {
+async function getPropertyForSale() {
   const propertyForSale = await fetchApi(
     `${baseUrl}/properties/list?locationExternalIDs=5002&purpose=for-sale&hitsPerPage=6`
   );
@@ -44,10 +57,13 @@ export async function getPropertyForSale() {
   return propertyForSale?.hits;
 }
 
-export async function getPropertyForRent() {
+async function getPropertyForRent() {
   const propertyForRent = await fetchApi(
     `${baseUrl}/properties/list?locationExternalIDs=5002&purpose=for-rent&hitsPerPage=6`
   );
 
   return propertyForRent?.hits;
 }
+
+
+export default Index

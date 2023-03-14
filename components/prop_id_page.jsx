@@ -1,4 +1,4 @@
-"use client"
+//"use client"
 import { Box, Flex, Spacer, Text } from '@chakra-ui/layout';
 import { Avatar } from '@chakra-ui/avatar';
 import { FaBed, FaBath } from 'react-icons/fa';

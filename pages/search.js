@@ -1,7 +1,8 @@
-import { baseUrl, fetchApi } from '../../utils/fetchApi';
-import SearchComp from '@/components/search_page';
+import { baseUrl, fetchApi } from '../src/utils/fetchApi';
+import SearchComp from '../components/search_page';
 
 const Search = ({ properties }) => {
+  use
   return (
     <SearchComp properties={properties} />
   );

@@ -1,8 +1,8 @@
-"use client";
+//"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { Flex, Box, Button, Text } from "@chakra-ui/react";
-import Property from "../components/Property";
+import Property from "./Property";
 const BannerComp = ({
   purpose,
   title1,
