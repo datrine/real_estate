@@ -38,7 +38,7 @@ const SearchComp = ({ properties, }) => {
       </Flex>
       {properties?.length === 0 && (
         <Flex justifyContent='center' alignItems='center' flexDir='column' marginTop='5' marginBottom='5'>
-          <Image src={noresult} />
+          <Image alt='alt' src={noresult} />
           <Text fontSize='xl' marginTop='3'>No Result Found.</Text>
         </Flex>
       )}

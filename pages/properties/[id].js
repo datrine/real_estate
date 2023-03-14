@@ -8,6 +8,9 @@ const PropertyDetails = ({ }) => {
   const router = useRouter()
   const { id } = router.query
   useEffect(() => {
+    if (!id) {
+      return
+    }
     (async () => {
       let propertyDetails = await getPropertyData(id);
       changePropertyDetails(propertyDetails);
